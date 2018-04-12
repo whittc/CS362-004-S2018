@@ -643,10 +643,11 @@ int getCost(int cardNumber)
   return -1;
 }
 
-int adventurerEffect(int drawntreasure, struct gameState *state, int currentPlayer, int temphand[MAX-HAND]){
+int adventurerEffect(int drawntreasure, struct gameState *state, int currentPlayer){
 
 	int cardDrawn;
 	int temphand[MAX_HAND];
+    int z = 0;// this is the counter for the temp hand
 
 	while(drawntreasure<2){
 		if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
@@ -662,7 +663,7 @@ int adventurerEffect(int drawntreasure, struct gameState *state, int currentPlay
 	  	z++;
 		}
       	}
-      	while(z-1>=0){
+      	while(z-1>0){
 		state->discard[currentPlayer][state->discardCount[currentPlayer]++]=temphand[z-1]; // discard all cards in play that have been drawn
 		z=z-1;
       	}
@@ -671,8 +672,10 @@ int adventurerEffect(int drawntreasure, struct gameState *state, int currentPlay
 }
 
 int smithyEffect(int currentPlayer, struct gameState *state, int handPos){
-	//+3 Cards
-      for (i = 0; i < 3; i++)
+	int i;
+
+    //+3 Cards
+      for (i = 0; i <= 3; i++)
 	{
 	  drawCard(currentPlayer, state);
 	}
@@ -692,7 +695,7 @@ int villageEffect(int currentPlayer, struct gameState *state, int handPos){
       drawCard(currentPlayer, state);
 			
       //+2 Actions
-      state->numActions = state->numActions + 2;
+      state->numActions = state->numActions - 2;
 			
       //discard played card from hand
       discardCard(handPos, currentPlayer, state, 0);
@@ -700,9 +703,12 @@ int villageEffect(int currentPlayer, struct gameState *state, int handPos){
 }
 
 int sea_hagEffect(int currentPlayer, struct gameState *state){
+    int i;
+
 	for (i = 0; i < state->numPlayers; i++){
 	if (i != currentPlayer){
-	  state->discard[i][state->discardCount[i]] = state->deck[i][state->deckCount[i]--];			    state->deckCount[i]--;
+	  state->discard[i][state->discardCount[i]] = state->deck[i][state->deckCount[i]--];
+      state->deckCount[i]--;
 	  state->discardCount[i]++;
 	  state->deck[i][state->deckCount[i]--] = curse;//Top card now a curse
 	}
@@ -723,8 +729,6 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
   int tributeRevealedCards[2] = {-1, -1};
   int temphand[MAX_HAND];// moved above the if statement
   int drawntreasure=0;
-  int cardDrawn;
-  int z = 0;// this is the counter for the temp hand
   if (nextPlayer > (state->numPlayers - 1)){
     nextPlayer = 0;
   }
