@@ -687,7 +687,7 @@ int smithyEffect(int currentPlayer, struct gameState *state, int handPos){
 }
 
 int gardensEffect(){
-	return -1;
+	return 0;
 }
 
 int villageEffect(int currentPlayer, struct gameState *state, int handPos){
