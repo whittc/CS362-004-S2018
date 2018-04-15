@@ -9,7 +9,7 @@ int discardCard(int handPos, int currentPlayer, struct gameState *state,
 		int trashFlag);
 int gainCard(int supplyPos, struct gameState *state, int toFlag, int player);
 int getCost(int cardNumber);
-int adventurerEffect(int drawnCard, struct gameState *state, int currentPlayer);
+int adventurerEffect(int drawntreasure, struct gameState *state, int currentPlayer);
 int smithyEffect(int currentPlayer, struct gameState *state,  int handpos);
 int gardensEffect();
 int villageEffect(int currentPlayer, struct gameState *state, int handpos);
